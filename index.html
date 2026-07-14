@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bulletin Board</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Space+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <span class="header-pin pin-red"></span>
+      <span class="header-pin pin-blue"></span>
+      <h1 class="board-title">📌 Bulletin Board</h1>
+      <span class="header-pin pin-green"></span>
+      <span class="header-pin pin-yellow"></span>
+    </div>
+  </header>
+
+  <main class="board" id="board">
+    <div class="status-message" id="loading">
+      <span class="status-icon">⏳</span>
+      <p>Loading images from the board…</p>
+    </div>
+    <div class="status-message hidden" id="empty">
+      <span class="status-icon">📭</span>
+      <p>No PNGs found. Commit some <code>.png</code> files to your <code>images/</code> folder and push.</p>
+    </div>
+    <div class="status-message hidden" id="error">
+      <span class="status-icon">⚠️</span>
+      <p id="error-text"></p>
+    </div>
+    <div class="card-grid" id="grid"></div>
+  </main>
+
+  <div class="lightbox hidden" id="lightbox">
+    <div class="lightbox-backdrop" id="lightbox-backdrop"></div>
+    <div class="lightbox-content">
+      <button class="lightbox-close" id="lightbox-close" aria-label="Close">✕</button>
+      <img class="lightbox-img" id="lightbox-img" src="" alt="">
+      <p class="lightbox-name" id="lightbox-name"></p>
+      <a class="lightbox-download" id="lightbox-download" download target="_blank">⬇ Download original</a>
+    </div>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/display.js"></script>
+  <script src="js/init.js"></script>
+
+</body>
+</html>

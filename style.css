@@ -1,0 +1,382 @@
+/* ─────────────────────────────────────────────
+   TOKENS
+───────────────────────────────────────────── */
+:root {
+  --cork-base:       #C49240;
+  --cork-light:      #D4A855;
+  --cork-dark:       #A07830;
+  --wood-dark:       #2C1810;
+  --wood-mid:        #4A2C1A;
+  --card-bg:         #FEFCF8;
+  --card-shadow:     rgba(44, 24, 16, 0.35);
+  --card-shadow-hover: rgba(44, 24, 16, 0.55);
+  --label-color:     #4A3520;
+  --label-mono:      'Space Mono', 'Courier New', monospace;
+  --display-font:    'Playfair Display', Georgia, serif;
+
+  --pin-red:    #D94030;
+  --pin-blue:   #2A72B5;
+  --pin-green:  #2E8B57;
+  --pin-yellow: #E0A020;
+  --pin-purple: #7B4EA0;
+  --pin-teal:   #207080;
+
+  --card-width: 200px;
+  --card-pad:   14px;
+  --radius:     2px;
+}
+
+/* ─────────────────────────────────────────────
+   RESET & BASE
+───────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  min-height: 100vh;
+}
+
+body {
+  font-family: var(--label-mono);
+  background-color: var(--cork-base);
+  /* Cork fibre texture via layered repeating gradients */
+  background-image:
+    repeating-linear-gradient(
+      47deg,
+      rgba(160, 100, 30, 0.12) 0px, rgba(160, 100, 30, 0.12) 1px,
+      transparent 1px, transparent 9px
+    ),
+    repeating-linear-gradient(
+      -41deg,
+      rgba(110, 70, 20, 0.09) 0px, rgba(110, 70, 20, 0.09) 1px,
+      transparent 1px, transparent 14px
+    ),
+    repeating-linear-gradient(
+      92deg,
+      rgba(195, 140, 55, 0.07) 0px, rgba(195, 140, 55, 0.07) 2px,
+      transparent 2px, transparent 7px
+    ),
+    repeating-linear-gradient(
+      -12deg,
+      rgba(80, 50, 10, 0.05) 0px, rgba(80, 50, 10, 0.05) 1px,
+      transparent 1px, transparent 20px
+    );
+  color: var(--label-color);
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* ─────────────────────────────────────────────
+   HEADER
+───────────────────────────────────────────── */
+.site-header {
+  background-color: var(--wood-dark);
+  background-image: repeating-linear-gradient(
+    90deg,
+    rgba(255,255,255,0.02) 0px, rgba(255,255,255,0.02) 1px,
+    transparent 1px, transparent 30px
+  );
+  border-bottom: 4px solid var(--wood-mid);
+  box-shadow: 0 3px 12px rgba(0,0,0,0.4);
+  padding: 16px 24px;
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.board-title {
+  font-family: var(--display-font);
+  font-size: clamp(1.4rem, 3vw, 2.2rem);
+  font-weight: 700;
+  color: var(--cork-light);
+  letter-spacing: 0.04em;
+  text-shadow: 1px 2px 4px rgba(0,0,0,0.6);
+}
+
+/* Header decorative pins */
+.header-pin {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.5), inset 0 -1px 2px rgba(0,0,0,0.2);
+  position: relative;
+}
+.header-pin::after {
+  content: '';
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.45);
+  top: 2px;
+  left: 2px;
+}
+.pin-red    { background-color: var(--pin-red); }
+.pin-blue   { background-color: var(--pin-blue); }
+.pin-green  { background-color: var(--pin-green); }
+.pin-yellow { background-color: var(--pin-yellow); }
+.pin-purple { background-color: var(--pin-purple); }
+.pin-teal   { background-color: var(--pin-teal); }
+
+/* ─────────────────────────────────────────────
+   BOARD MAIN AREA
+───────────────────────────────────────────── */
+.board {
+  padding: 48px 32px 64px;
+  min-height: calc(100vh - 80px);
+}
+
+/* ─────────────────────────────────────────────
+   STATUS MESSAGES
+───────────────────────────────────────────── */
+.status-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 60px 24px;
+  text-align: center;
+}
+
+.status-icon {
+  font-size: 2.4rem;
+}
+
+.status-message p {
+  font-family: var(--label-mono);
+  font-size: 0.9rem;
+  color: var(--wood-dark);
+  max-width: 360px;
+  line-height: 1.6;
+  background: rgba(255,255,255,0.6);
+  border-radius: 6px;
+  padding: 12px 20px;
+}
+
+.status-message code {
+  font-family: var(--label-mono);
+  background: rgba(44,24,16,0.1);
+  padding: 1px 5px;
+  border-radius: 3px;
+}
+
+/* ─────────────────────────────────────────────
+   CARD GRID
+───────────────────────────────────────────── */
+.card-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 48px 40px;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 24px;
+}
+
+/* ─────────────────────────────────────────────
+   PHOTO CARDS
+───────────────────────────────────────────── */
+.card {
+  position: relative;
+  background-color: var(--card-bg);
+  padding: var(--card-pad);
+  padding-bottom: 40px;
+  width: var(--card-width);
+  cursor: pointer;
+  border-radius: var(--radius);
+  box-shadow:
+    2px 3px 8px var(--card-shadow),
+    4px 6px 20px rgba(0,0,0,0.15);
+  transition:
+    transform 0.22s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    box-shadow 0.22s ease;
+  /* rotation set inline via --card-rotation */
+  transform: rotate(var(--card-rotation, 0deg));
+  will-change: transform;
+}
+
+.card:hover {
+  transform: rotate(0deg) scale(1.06) translateY(-4px);
+  box-shadow:
+    4px 10px 20px var(--card-shadow-hover),
+    8px 16px 40px rgba(0,0,0,0.2);
+  z-index: 20;
+}
+
+/* Pushpin */
+.card-pin {
+  position: absolute;
+  top: -11px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: var(--pin-color, var(--pin-red));
+  box-shadow:
+    0 2px 5px rgba(0,0,0,0.45),
+    inset 0 -2px 3px rgba(0,0,0,0.2);
+  z-index: 5;
+}
+.card-pin::after {
+  content: '';
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.48);
+  top: 3px;
+  left: 3px;
+}
+
+/* Image inside card */
+.card-img {
+  display: block;
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 1px;
+  background-color: #e8e0d0;
+}
+
+/* Filename label */
+.card-label {
+  position: absolute;
+  bottom: 10px;
+  left: var(--card-pad);
+  right: var(--card-pad);
+  font-family: var(--label-mono);
+  font-size: 0.62rem;
+  color: var(--label-color);
+  opacity: 0.75;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+  letter-spacing: 0.02em;
+}
+
+/* ─────────────────────────────────────────────
+   LIGHTBOX
+───────────────────────────────────────────── */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lightbox-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(20, 10, 5, 0.85);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  cursor: pointer;
+}
+
+.lightbox-content {
+  position: relative;
+  z-index: 101;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  max-width: 90vw;
+  max-height: 90vh;
+  padding: 24px;
+}
+
+.lightbox-img {
+  max-width: 100%;
+  max-height: 75vh;
+  object-fit: contain;
+  border-radius: 2px;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.7);
+}
+
+.lightbox-name {
+  font-family: var(--label-mono);
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.7);
+  letter-spacing: 0.04em;
+}
+
+.lightbox-download {
+  font-family: var(--label-mono);
+  font-size: 0.75rem;
+  color: var(--cork-light);
+  text-decoration: none;
+  border: 1px solid var(--cork-dark);
+  padding: 6px 14px;
+  border-radius: 3px;
+  background: rgba(196, 146, 64, 0.12);
+  transition: background 0.15s ease;
+}
+.lightbox-download:hover {
+  background: rgba(196, 146, 64, 0.28);
+}
+
+.lightbox-close {
+  position: absolute;
+  top: -8px;
+  right: 0px;
+  background: var(--pin-red);
+  border: none;
+  color: #fff;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-size: 0.85rem;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+  transition: background 0.15s ease, transform 0.15s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.lightbox-close:hover {
+  background: #b52d20;
+  transform: scale(1.1);
+}
+
+/* ─────────────────────────────────────────────
+   RESPONSIVE
+───────────────────────────────────────────── */
+@media (max-width: 480px) {
+  :root {
+    --card-width: 160px;
+  }
+  .board {
+    padding: 32px 16px 48px;
+  }
+  .card-grid {
+    gap: 36px 28px;
+  }
+  .board-title {
+    font-size: 1.3rem;
+  }
+}
+
+/* ─────────────────────────────────────────────
+   REDUCED MOTION
+───────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .card, .lightbox-close, .lightbox-download {
+    transition: none;
+  }
+}
