@@ -7,8 +7,8 @@
  */
 
 const CONFIG = {
-  owner: 'arpanetjanitor420-lab',
-repo:  'Instructions-', this repository's name
-  branch:        'main',                  // ← branch where images live (usually 'main' or 'master')
-  imagesFolder:  'images'                 // ← folder containing your .png files
+  owner:         'arpanetjanitor420-lab',
+  repo:          'Instructions-',
+  branch:        'main',
+  imagesFolder:  'images'
 };
